@@ -1,5 +1,7 @@
 .manual_container {
     margin-top: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
 }
 
 .manual_container label {
@@ -20,4 +22,10 @@
 
 .bet_button:active {
     transform: scale(0.8);
+}
+
+@media screen and (max-width: 1200px) {
+    .manual_container{
+        flex-direction: column-reverse;
+    }
 }

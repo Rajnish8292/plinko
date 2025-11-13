@@ -1,11 +1,5 @@
 "use client";
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./ControlTab.module.css";
 
 export default function ControlTab() {
@@ -19,12 +13,19 @@ export default function ControlTab() {
     const activeButton = button_container_ref.current.children[index];
     const { top, left, width, height } = activeButton.getBoundingClientRect();
 
-    console.log(top, left, width, height);
-
     indicator_ref.current.style.left = `${left}px`;
-    indicator_ref.current.style.top = `${top}px`;
+    indicator_ref.current.style.top = `${top + window.scrollY}px`;
     indicator_ref.current.style.width = `${width}px`;
     indicator_ref.current.style.height = `${height}px`;
+  }, []);
+
+  const resizeHandler = useCallback(() => {
+    changeIndicatorPositionTo(currentPosition);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("resize", resizeHandler);
+    return () => window.removeEventListener("resize", resizeHandler);
   }, []);
 
   useEffect(() => {

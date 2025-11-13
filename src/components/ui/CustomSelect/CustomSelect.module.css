@@ -1,7 +1,6 @@
 .select_container {
   position: relative;
   width: 100%;
-  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 600;
   color: #fff;
 }

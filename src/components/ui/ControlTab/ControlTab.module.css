@@ -3,7 +3,6 @@
     border: 0.25px solid var(--border-color);
     border-radius: var(--border-radius-md);
     padding: var(--spacing-sm);
-    /* position: relative; */
     overflow: hidden; 
 }
 

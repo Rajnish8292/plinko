@@ -48,5 +48,13 @@ body {
   color: var(--color-shade4);
   font-family: "inter";
   font-size: var(--text-sm);
+  overflow-x: hidden ;
 }
+
+@media screen and (max-width: 1200px) {
+  body {
+    display: block;
+  }
+}
+
 
