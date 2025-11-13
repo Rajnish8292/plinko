@@ -1,0 +1,23 @@
+.manual_container {
+    margin-top: var(--spacing-lg);
+}
+
+.manual_container label {
+    font-size: var(--text-md) ;
+}
+
+.bet_button {
+    padding: var(--spacing-md) 0;
+    background-color: var(--color-shade1);
+    border-radius: var(--border-radius-sm);
+    font-weight: bold;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.5s ;
+    user-select: none;
+    margin: var(--spacing-2xl) 0;
+}
+
+.bet_button:active {
+    transform: scale(0.8);
+}

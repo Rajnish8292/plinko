@@ -1,0 +1,116 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius:var(--border-radius-sm);
+  width: 100%;
+  gap: 0.75rem;
+
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+    background-color: var(--color-shade3) ;
+
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  position: relative;
+  transition: 0.5s;
+}
+
+.inputWrapper:focus {
+    border: 1px solid var(--color-shade1);
+}
+
+.input:focus .inputWrapper {
+     border: 1px solid var(--color-shade1);
+
+}
+.icon {
+  background: #0bbc54;
+  color: black;
+  font-weight: bold;
+  font-size: 10px;
+  margin-right: 0.5rem;
+  height: 15px;
+  width: 15px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.input {
+  flex: 1;
+    font-family: "inter";
+
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  border-left:0.7px solid var(--border-color) ;
+  padding-left:var(--spacing-md) ;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.arrows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 1px solid var(--border-color);
+  padding-left: var(--spacing-lg);
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.arrows button {
+  background: none;
+  border: none;
+  color: var(--color-shade5);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.arrows button:hover {
+  transform: scale(1.1);
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 0.75rem;
+}
+
+.buttons button {
+  flex: 1;
+     background-color: var(--color-shade3) ;
+
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+
+
+.buttons button:hover {
+  background: #271b2f;
+  border-color: var(--color-shade1);
+}
