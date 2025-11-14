@@ -10,6 +10,7 @@ export default function CustomSelect({
 }) {
   const [selected, setSelected] = useState(defaultOption);
   const [open, setOpen] = useState(false);
+  const [dropUp, setDropUp] = useState(false);
   const selectRef = useRef(null);
 
   // Close dropdown when clicking outside
@@ -23,6 +24,20 @@ export default function CustomSelect({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Calculate whether dropdown should open above or below
+  useEffect(() => {
+    if (open && selectRef.current) {
+      const rect = selectRef.current.getBoundingClientRect();
+      const dropdownMaxHeight = window.innerHeight * 0.4; // 40vh max height
+      const spaceBelow = window.innerHeight - rect.bottom;
+      if (spaceBelow < dropdownMaxHeight) {
+        setDropUp(true);
+      } else {
+        setDropUp(false);
+      }
+    }
+  }, [open]);
+
   const handleOptionClick = (option) => {
     setSelected(option);
     setOpen(false);
@@ -30,7 +45,11 @@ export default function CustomSelect({
   };
 
   return (
-    <div ref={selectRef} className={styles.select_container}>
+    <div
+      ref={selectRef}
+      className={styles.select_container}
+      style={{ position: "relative" }}
+    >
       <div
         className={styles.select_display}
         onClick={() => setOpen((prev) => !prev)}
@@ -43,7 +62,11 @@ export default function CustomSelect({
       </div>
 
       {open && (
-        <div className={styles.options_list}>
+        <div
+          className={`${styles.options_list} ${
+            dropUp ? styles.drop_up : styles.drop_down
+          }`}
+        >
           {options.map((option) => (
             <div
               key={option}
