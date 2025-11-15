@@ -1,10 +1,10 @@
-import styles from "./Manual.module.css";
-import CustomSelect from "../CustomSelect/CustomSelect";
+import styles from "./Auto.module.css";
 import PriceInput from "../PriceInput/PriceInput";
-
-export default function Manual() {
+import CustomSelect from "../CustomSelect/CustomSelect";
+import NoOfBet from "../NoOfBet/NoOfBet";
+export default function Auto() {
   return (
-    <div className={styles.manual_container}>
+    <div className={styles.auto_container}>
       <div>
         <div style={{ margin: "var(--spacing-lg) 0" }}>
           <div style={{ padding: "var(--spacing-md) 0", fontWeight: "bold" }}>
@@ -28,8 +28,12 @@ export default function Manual() {
             options={Array.from({ length: 16 - 8 + 1 }, (_, i) => i + 8)}
           />
         </div>
+        <div style={{ margin: "var(--spacing-lg) 0", fontWeight: "bold" }}>
+          <div style={{ padding: "var(--spacing-md) 0" }}>Number of Bets</div>
+          <NoOfBet />
+        </div>
       </div>
-      <div className={styles.bet_button}>Bet</div>
+      <div className={styles.bet_button}>Start Autobet</div>
     </div>
   );
 }

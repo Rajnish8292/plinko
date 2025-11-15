@@ -1,13 +1,11 @@
-.manual_container {
+.auto_container {
+    margin-top: var(--spacing-lg);
     display: flex;
     flex-direction: column;
+
 }
 
-.manual_container label {
-    font-size: var(--text-md) ;
-}
-
-.bet_button {
+    .bet_button {
     padding: var(--spacing-md) 0;
     background-color: var(--color-shade1);
     border-radius: var(--border-radius-sm);
@@ -22,9 +20,8 @@
 .bet_button:active {
     transform: scale(0.8);
 }
-
 @media screen and (max-width: 1200px) {
-    .manual_container{
+    .auto_container {
         flex-direction: column-reverse;
     }
 }

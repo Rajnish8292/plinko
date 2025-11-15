@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./ControlTab.module.css";
 
-export default function ControlTab() {
+export default function ControlTab({ callback }) {
   const indicator_ref = useRef();
   const button_container_ref = useRef();
   const [currentPosition, setCurrentPosition] = useState(0);
@@ -11,14 +11,12 @@ export default function ControlTab() {
     if (!indicator_ref.current || !button_container_ref.current) return;
 
     const activeButton = button_container_ref.current.children[index];
-    const { top, left, width, height } = activeButton.getBoundingClientRect();
+    indicator_ref.current.style.left = `${activeButton.offsetLeft}px`;
+    indicator_ref.current.style.top = `${activeButton.offsetTop}px`;
 
-    indicator_ref.current.style.left = `${left}px`;
-    indicator_ref.current.style.top = `${top + window.scrollY}px`;
-    indicator_ref.current.style.width = `${width}px`;
-    indicator_ref.current.style.height = `${height}px`;
+    callback(index);
   }, []);
-
+  3;
   const resizeHandler = useCallback(() => {
     changeIndicatorPositionTo(currentPosition);
   }, []);
@@ -52,14 +50,6 @@ export default function ControlTab() {
           }}
         >
           Auto
-        </div>
-        <div
-          className={styles.tab_button}
-          onClick={() => {
-            setCurrentPosition(2);
-          }}
-        >
-          Advanced
         </div>
       </div>
     </div>

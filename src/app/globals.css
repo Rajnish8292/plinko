@@ -26,11 +26,11 @@
   --border-radius-sm: 4px;
   --border-radius-md: 8px;
 
-  --spacing-sm: 8px;
-  --spacing-md: 12px;
-  --spacing-lg: 18px;
-  --spacing-xl: 22px;
-  --spacing-2xl: 26px;
+  --spacing-sm: 6px;
+  --spacing-md: 10px;
+  --spacing-lg: 14px;
+  --spacing-xl: 20px;
+  --spacing-2xl: 22px;
 
   --text-sm: 14px;
   --text-md: 16px;

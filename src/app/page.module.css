@@ -1,35 +1,94 @@
 .plinko {
-  height: 600px;
+  height: auto;
   width: 1200px;
   border: 0.5px solid var(--border-color);
   border-radius: 8px;
   box-shadow: var(--box-shadow-md);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
 }
 
 
 .canvas_container {
   background-color: var(--color-shade3) ;
-    border-radius: 8px;
-    width: 70%;
+  border-radius: 0;
+  border-left: 0.5px solid var(--border-color);
+  width: 70%;
+  height: 600px;
 }
 .control_panel {
   background-color: var(--color-shade2);
   padding: var(--spacing-md);
-    border-radius: 8px;
-    width: 30%;
+  border-radius: 8px;
+  height: 600px;
+  width: 30%;
 }
 
+.game_container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+.bottom_container {
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 0.5px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+}
+
+.left_container {
+  font-size: var(--text-lg);
+  color: var(--color-shade4);
+  display: flex;
+  gap: var(--spacing-md);
+}
+
+.left_container button {
+  background: none;
+  border: none;
+  outline: none;
+    font-size: var(--text-lg);
+    color: var(--color-shade4);
+    box-shadow: inset 0 1px #ffffff0d;
+    background: #211624;
+    padding: var(--spacing-md);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+}
+
+.right_container button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+   font-size: var(--text-sm);
+    color: var(--color-shade4);
+    box-shadow: inset 0 1px #ffffff0d;
+    background: #211624;
+    outline: none;
+    border: none;
+        border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    font-weight: bold;
+}
 @media screen and (max-width: 1200px) {
   .plinko {
-    width: calc(97vw);
+    width: 100vw;
     height: auto;
+  }
+  .game_container {
     flex-direction: column-reverse;
   }
   .canvas_container {
     width: 100%;
-    height: 600px;
+    height: 400px;
   }
   .control_panel  {
     width: 100%;

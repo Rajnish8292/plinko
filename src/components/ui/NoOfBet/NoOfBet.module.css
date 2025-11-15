@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+     background-color: var(--color-shade3) ;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  position: relative;
+}
+.input_wrapper {
+    position: relative;
+    flex: 1;
+}
+.input_wrapper input {
+    background-color: transparent;
+    outline: none;
+    border: none;
+    color: var(--color-shade4);
+    font-size: var(--text-sm);
+    font-family: "inter";
+    font-weight: bold;
+}
+
+.input_wrapper input::-webkit-outer-spin-button,
+.input_wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.arrows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-left: 1px solid var(--border-color);
+  padding-left: var(--spacing-lg);
+  font-weight: bold;
+  cursor: pointer;
+}
+.arrows button {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background:none ;
+    outline: none;
+    border: none;
+    color: var(--text-sm);
+    cursor: pointer;
+}
+
+.infinite {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

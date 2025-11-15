@@ -12,11 +12,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-    background-color: var(--color-shade3) ;
-
+  background-color: var(--color-shade3) ;
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  padding: 0.5rem 0.75rem;
+  padding: var(--spacing-md) var(--spacing-lg);
   width: 100%;
   position: relative;
   transition: 0.5s;
@@ -48,12 +47,11 @@
 .input {
   flex: 1;
     font-family: "inter";
-
   background: transparent;
   border: none;
   outline: none;
-  color: #ffffff;
-  font-size: 1rem;
+  color: var(--color-shade4);
+  font-size: var(--text-sm);
   font-weight: 700;
   border-left:0.7px solid var(--border-color) ;
   padding-left:var(--spacing-md) ;
