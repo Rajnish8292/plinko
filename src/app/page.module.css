@@ -60,8 +60,37 @@
     align-items: center;
     border-radius: var(--border-radius-sm);
     cursor: pointer;
+    position: relative;
 }
 
+.left_container button::after {
+  position: absolute;
+  top: 0;
+  transform: translate(0, -150%) scale(0.7);
+  font-size: 12px;
+  font-weight: bold;
+  background: var(--color-shade1);
+  padding: 3px;
+  border-radius: var(--border-radius-sm);
+  transition: 0.25s;
+  opacity: 0;
+  width: auto;
+  white-space: nowrap;
+}
+
+.left_container button:nth-child(1):after {
+  content: "Settings";
+}
+
+.left_container button:nth-child(2):after {
+  content: "Open live stats";
+}
+
+
+.left_container button:hover::after {
+  opacity: 1;
+    transform: translate(0, -150%) scale(1);
+}
 .right_container button {
   display: flex;
   align-items: center;

@@ -7,37 +7,44 @@ import { IoMdSettings } from "react-icons/io";
 import { AiOutlineAlignLeft } from "react-icons/ai";
 import { LuNotebookText } from "react-icons/lu";
 import { useState } from "react";
+import Game from "@/components/game/Game";
+import { gameContext } from "@/store/gameContext";
 export default function Home() {
   const [currentTab, setCurrentTab] = useState(0);
-
+  const [rows, setRows] = useState(16);
+  const [betFn, setBeFn] = useState(() => {});
   const tabCallback = (index) => {
     setCurrentTab(index);
   };
   return (
-    <div className={styles.plinko}>
-      <div className={styles.game_container}>
-        <div className={styles.control_panel}>
-          <ControlTab callback={tabCallback} />
-          {currentTab == 0 ? <Manual /> : <Auto />}
+    <gameContext.Provider value={{ rows, setRows, betFn, setBeFn }}>
+      <div className={styles.plinko}>
+        <div className={styles.game_container}>
+          <div className={styles.control_panel}>
+            <ControlTab callback={tabCallback} />
+            {currentTab == 0 ? <Manual /> : <Auto />}
+          </div>
+          <div className={styles.canvas_container}>
+            <Game />
+          </div>
         </div>
-        <div className={styles.canvas_container}>canvas</div>
+        <div className={styles.bottom_container}>
+          <div className={styles.left_container}>
+            <button>
+              <IoMdSettings size={18} />
+            </button>
+            <button>
+              <AiOutlineAlignLeft size={18} />
+            </button>
+          </div>
+          <div className={styles.right_container}>
+            <button>
+              <LuNotebookText size={18} />
+              Provably Fair
+            </button>
+          </div>
+        </div>
       </div>
-      <div className={styles.bottom_container}>
-        <div className={styles.left_container}>
-          <button>
-            <IoMdSettings size={18} />
-          </button>
-          <button>
-            <AiOutlineAlignLeft size={18} />
-          </button>
-        </div>
-        <div className={styles.right_container}>
-          <button>
-            <LuNotebookText size={18} />
-            Provably Fair
-          </button>
-        </div>
-      </div>
-    </div>
+    </gameContext.Provider>
   );
 }

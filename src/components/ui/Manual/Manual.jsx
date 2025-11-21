@@ -1,8 +1,14 @@
 import styles from "./Manual.module.css";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import PriceInput from "../PriceInput/PriceInput";
+import RiskTab from "../RiskTab/RiskTab";
+import RowsSelector from "../RowsSelector/RowsSelector";
+import { gameContext } from "@/store/gameContext";
+import { useContext } from "react";
 
 export default function Manual() {
+  const { betFn, setBeFn } = useContext(gameContext);
+
   return (
     <div className={styles.manual_container}>
       <div>
@@ -16,20 +22,16 @@ export default function Manual() {
           <div style={{ padding: "var(--spacing-md) 0", fontWeight: "bold" }}>
             Risk
           </div>
-          <CustomSelect
-            defaultOption="low"
-            options={["low", "medium", "high"]}
-          />
+          <RiskTab />
         </div>
         <div style={{ margin: "var(--spacing-lg) 0", fontWeight: "bold" }}>
           <div style={{ padding: "var(--spacing-md) 0" }}>Rows</div>
-          <CustomSelect
-            defaultOption="8"
-            options={Array.from({ length: 16 - 8 + 1 }, (_, i) => i + 8)}
-          />
+          <RowsSelector />
         </div>
       </div>
-      <div className={styles.bet_button}>Bet</div>
+      <div className={styles.bet_button} onClick={betFn}>
+        Bet
+      </div>
     </div>
   );
 }

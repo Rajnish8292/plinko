@@ -20,7 +20,13 @@ export default function NoOfBet() {
         <input
           type="number"
           value={value}
-          onChange={(e) => setValue(Number(e.target.value))}
+          onChange={(e) =>
+            setValue((prev) => {
+              if (prev == 0) {
+                return Number(e.target.value);
+              }
+            })
+          }
         />
         {value == 0 && <div className={styles.infinite}>Infinite</div>}
       </div>

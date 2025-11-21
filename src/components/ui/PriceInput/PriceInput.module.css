@@ -42,10 +42,10 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  flex: 1;
 }
 
 .input {
-  flex: 1;
     font-family: "inter";
   background: transparent;
   border: none;
@@ -55,7 +55,10 @@
   font-weight: 700;
   border-left:0.7px solid var(--border-color) ;
   padding-left:var(--spacing-md) ;
+  width: 100%;
 }
+
+
 
 .input::-webkit-outer-spin-button,
 .input::-webkit-inner-spin-button {
@@ -64,6 +67,7 @@
 }
 
 .arrows {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,14 +92,13 @@
 .buttons {
   display: flex;
   justify-content: space-between;
-  width: 100%;
-  gap: 0.75rem;
+  width: auto;
+  gap: 0.5rem;
+  padding-right: var(--spacing-md);
 }
 
 .buttons button {
-  flex: 1;
      background-color: var(--color-shade3) ;
-
   border: 1px solid var(--border-color);
   border-radius: 8px;
   color: #ffffff;
@@ -104,6 +107,7 @@
   padding: 0.5rem 0;
   transition: 0.5s;
   cursor: pointer;
+    width: 50px;
 }
 
 

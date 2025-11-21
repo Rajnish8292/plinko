@@ -5,7 +5,7 @@
 
 }
 
-    .bet_button {
+.bet_button {
     padding: var(--spacing-md) 0;
     background-color: var(--color-shade1);
     border-radius: var(--border-radius-sm);

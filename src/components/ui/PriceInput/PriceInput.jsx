@@ -23,14 +23,18 @@ export default function PriceInput() {
     <div className={styles.container}>
       <div className={styles.inputWrapper} tabIndex={0}>
         <div className={styles.icon}>$</div>
-
-        <input
-          type="number"
-          value={value.toFixed(2)}
-          onChange={handleChange}
-          className={styles.input}
-        />
-
+        <div>
+          <input
+            type="number"
+            value={value.toFixed(2)}
+            onChange={handleChange}
+            className={styles.input}
+          />
+        </div>
+        <div className={styles.buttons}>
+          <button onClick={half}>½</button>
+          <button onClick={double}>2x</button>
+        </div>
         <div className={styles.arrows}>
           <button onClick={increment}>
             <ChevronUp size={14} />
@@ -39,11 +43,6 @@ export default function PriceInput() {
             <ChevronDown size={14} />
           </button>
         </div>
-      </div>
-
-      <div className={styles.buttons}>
-        <button onClick={half}>½</button>
-        <button onClick={double}>2x</button>
       </div>
     </div>
   );
