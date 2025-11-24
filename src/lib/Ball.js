@@ -1,5 +1,7 @@
 class Ball {
   constructor(x, y, radius, color) {
+    this.initialX = x;
+    this.initialY = y;
     this.x = x;
     this.y = y;
     this.radius = radius;
@@ -47,7 +49,7 @@ class Ball {
       ) {
         this.vx = 0;
         this.vy = 0;
-        this.y = sink.y - this.radius;
+        // this.y = sink.y - this.radius;
       }
     });
   }

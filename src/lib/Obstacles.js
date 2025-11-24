@@ -1,9 +1,13 @@
 export const obstaclesPosition = (rows, width, height) => {
   const obstacles = [];
-  const radius = 10 - ((rows - 8) / 8) * 5;
+  let radius = 10 - ((rows - 8) / 8) * 5;
   const minY = 50;
   const maxY = height * 0.8;
   let rowSpacing = (maxY - minY) / (rows - 1);
+
+  if (width < 800) {
+    radius = 10 - ((rows - 8) / 8) * 5 - 2;
+  }
 
   for (let row = 0; row < rows; row++) {
     const y = minY + row * rowSpacing;

@@ -3,15 +3,16 @@ import { drawSink } from "./Sink";
 import { getMirroredColors } from "./MirroredColor";
 import { writeText } from "./Text";
 import { colorArray } from "@/constants/gameConfig";
-
+// import { BallManager } from "./BallManager";
 export const draw = (
   ctx,
   width,
   height,
   obstacles,
   sinks,
-  balls,
-  multiplier
+  BallManager,
+  multiplier,
+  collisionCallback
 ) => {
   ctx.clearRect(0, 0, width, height);
 
@@ -48,8 +49,6 @@ export const draw = (
   });
 
   // draw and update balls
-  balls.forEach((ball) => {
-    ball.update(obstacles, sinks);
-    ball.draw(ctx);
-  });
+  BallManager.updateBalls(obstacles, sinks, collisionCallback);
+  BallManager.drawBalls(ctx);
 };

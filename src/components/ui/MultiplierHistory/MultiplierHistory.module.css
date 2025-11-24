@@ -1,0 +1,31 @@
+.multiplier_container {
+    position: absolute;
+    top : 40%;
+    right: calc(var(--spacing-lg) * 2);
+    transform: translate(0, -50%);
+    border-radius: var(--border-radius-md);
+    background-color: black;
+    height: 250px;
+    width: 50px;
+    display: flex;
+    gap: 10px;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: start;
+    padding: var(--spacing-lg) var(--spacing-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.item {
+    background-color: rgba(236, 71, 36, 1);
+    height: 35px;
+    width: 35px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}

@@ -68,6 +68,31 @@ body {
   overflow-x: hidden ;
 }
 
+.multiplier-item {
+      background-color: rgba(236, 71, 36, 1);
+    height: 35px;
+    width: 35px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+    animation: slideUp 0.5s ease forwards;
+}
+@keyframes slideUp {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @media screen and (max-width: 1200px) {
   body {
     display: block;
@@ -75,3 +100,25 @@ body {
 }
 
 
+#simulatorInput {
+  border: 2px solid green;
+  padding: var(--spacing-md);
+  background-color: black;
+  color: green;
+  font-size: var(--text-xl);
+  outline: none;
+  margin: var(--spacing-md) 0;
+}
+
+#simulatorButton {
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: green;
+  color: black;
+  font-size: var(--text-md);
+  font-weight: bold;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: var(--spacing-md) 0;
+}

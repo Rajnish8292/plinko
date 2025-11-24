@@ -6,18 +6,22 @@ import Auto from "@/components/ui/Auto/Auto";
 import { IoMdSettings } from "react-icons/io";
 import { AiOutlineAlignLeft } from "react-icons/ai";
 import { LuNotebookText } from "react-icons/lu";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Game from "@/components/game/Game";
 import { gameContext } from "@/store/gameContext";
+import MultiplierHistory from "@/components/ui/MultiplierHistory/MultiplierHistory";
 export default function Home() {
   const [currentTab, setCurrentTab] = useState(0);
   const [rows, setRows] = useState(16);
   const [betFn, setBeFn] = useState(() => {});
+  const multiplierContainerRef = useRef(null);
   const tabCallback = (index) => {
     setCurrentTab(index);
   };
   return (
-    <gameContext.Provider value={{ rows, setRows, betFn, setBeFn }}>
+    <gameContext.Provider
+      value={{ rows, setRows, betFn, setBeFn, multiplierContainerRef }}
+    >
       <div className={styles.plinko}>
         <div className={styles.game_container}>
           <div className={styles.control_panel}>
@@ -25,6 +29,9 @@ export default function Home() {
             {currentTab == 0 ? <Manual /> : <Auto />}
           </div>
           <div className={styles.canvas_container}>
+            <MultiplierHistory
+              multiplierContainerRef={multiplierContainerRef}
+            />
             <Game />
           </div>
         </div>

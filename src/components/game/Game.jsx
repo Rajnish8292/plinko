@@ -2,13 +2,13 @@
 
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { gameContext } from "@/store/gameContext";
-import { colorArray, multipliers } from "@/constants/gameConfig";
+import { multipliers } from "@/constants/gameConfig";
 import Ball from "@/lib/Ball";
-import { drawObstacle, obstaclesPosition } from "@/lib/Obstacles";
-import { drawSink, sinksPosition } from "@/lib/Sink";
-import { writeText } from "@/lib/Text";
-import { getMirroredColors } from "@/lib/MirroredColor";
+import { obstaclesPosition } from "@/lib/Obstacles";
+import { sinksPosition } from "@/lib/Sink";
 import { draw } from "@/lib/Draw";
+import { BallManager } from "@/lib/BallManager";
+import { Simulator } from "@/lib/Simulator";
 
 export default function Draw() {
   const canvasRef = useRef();
@@ -18,30 +18,49 @@ export default function Draw() {
   // shared state
   const { rows, setRows } = useContext(gameContext);
   const { betFn, setBeFn } = useContext(gameContext);
+  const { multiplierContainerRef } = useContext(gameContext);
 
   const obstaclesRef = useRef([]);
   const sinksRef = useRef([]);
-  const ballsRef = useRef([]);
-  const multipliersArayRef = useRef(multipliers[16]);
+  const multipliersArayRef = useRef(multipliers[rows]);
 
-  const addBall = useCallback(() => {
-    const radius = 6;
-    const offset = -40 + Math.random() * 80;
-    const x = canvasWidth / 2 + offset;
-    const y = 30;
-    const color = "red";
-    const ball = new Ball(x, y, radius, color);
-    ballsRef.current.push(ball);
-  }, [canvasWidth]);
+  const collisionCallback = ({ multiplier }) => {
+    if (multiplierContainerRef && multiplierContainerRef.current) {
+      console.log(multiplierContainerRef.current);
+      const div = document.createElement("div");
+      div.className = "multiplier-item";
+      div.innerText = `${multiplier}x`;
+      multiplierContainerRef.current.append(div);
+      while (multiplierContainerRef.current.children.length > 10) {
+        multiplierContainerRef.current.removeChild(
+          multiplierContainerRef.current.firstChild
+        );
+      }
+    } else {
+      console.warn("multiplierContainerRef is not available.");
+    }
+  };
 
   useEffect(() => {
-    setBeFn(() => addBall);
+    BallManager.setCanvasWidth(canvasWidth);
+    BallManager.setCanvasHeight(canvasHeight);
+  }, [canvasWidth, canvasHeight]);
+
+  useEffect(() => {
+    BallManager.setRows(rows);
+    BallManager.updateRadius();
+  }, [rows]);
+
+  useEffect(() => {
+    setBeFn(() => BallManager.addBall.bind(BallManager));
   }, []);
 
   useEffect(() => {
+    // calcuate obstacle position according to number of rows
     const obstacles = obstaclesPosition(rows, canvasWidth, canvasHeight);
     obstaclesRef.current = obstacles;
 
+    // calcuate sink position according to number of rows
     const sinks = sinksPosition(rows, canvasWidth, canvasHeight);
     sinksRef.current = sinks;
 
@@ -49,6 +68,32 @@ export default function Draw() {
     multipliersArayRef.current = multipliers[rows];
   }, [rows, canvasHeight, canvasWidth]);
 
+  useEffect(() => {
+    const simulator = new Simulator(
+      BallManager,
+      canvasWidth,
+      canvasHeight,
+      rows
+    );
+    simulator.setUpTestDom();
+    // setTimeout(() => {
+    //   simulator.simulate();
+    // }, 1000);
+  }, [canvasWidth, canvasHeight, rows]);
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1000) {
+        setCanvasHeight(400);
+        setCanvasWidth(400);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("load", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("load", handleResize);
+    };
+  }, []);
   useEffect(() => {
     let animationFrameId;
     const ctx = canvasRef.current.getContext("2d");
@@ -60,8 +105,9 @@ export default function Draw() {
         canvasHeight,
         obstaclesRef.current,
         sinksRef.current,
-        ballsRef.current,
-        multipliersArayRef.current
+        BallManager,
+        multipliersArayRef.current,
+        collisionCallback
       );
       animationFrameId = window.requestAnimationFrame(render);
     };
@@ -71,6 +117,7 @@ export default function Draw() {
       window.cancelAnimationFrame(animationFrameId);
     };
   }, []);
+
   return (
     <canvas
       ref={canvasRef}

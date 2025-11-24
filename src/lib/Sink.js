@@ -1,3 +1,4 @@
+import { multipliers } from "@/constants/gameConfig";
 export const sinksPosition = (rows, width, height) => {
   const sinks = [];
   const radius = 10 - ((rows - 8) / 8) * 5;
@@ -7,8 +8,6 @@ export const sinksPosition = (rows, width, height) => {
 
   const numSinks = rows + 1;
   const sinkWidth = 74 - ((rows - 8) / 8) * 37;
-  console.log({ sinkWidth });
-
   for (let i = 0; i < numSinks; i++) {
     const x =
       width / 2 + (i - numSinks / 2) * (rowSpacing + 2 * radius) + radius;
@@ -18,6 +17,8 @@ export const sinksPosition = (rows, width, height) => {
       y,
       width: rowSpacing - radius + 10,
       height: 20,
+      multipler: multipliers[rows][i],
+      index: i,
     });
   }
 
