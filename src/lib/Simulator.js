@@ -1,4 +1,5 @@
 import { map } from "@/data/gameData";
+import { random } from "gsap";
 export class Simulator {
   constructor(BallManager, canvasWidth, canvasHeight, rows) {
     this.BallManager = BallManager;
@@ -50,6 +51,7 @@ export class Simulator {
     input.type = "text";
     input.style.width = "100%";
     input.style.marginTop = "10px";
+    input.value = "6";
     simulatorDiv.appendChild(input);
 
     const button = document.createElement("button");
@@ -74,6 +76,8 @@ export class Simulator {
       });
     };
     simulatorDiv.appendChild(button);
+
+    button.click();
 
     document.body.appendChild(simulatorDiv);
   }
@@ -123,6 +127,37 @@ export class Simulator {
       `;
     }
   }
+  async replay(row) {
+    const rowIndexMap = {
+      16: 0,
+      15: 1,
+      14: 2,
+      13: 3,
+      12: 4,
+      11: 5,
+      10: 6,
+      9: 7,
+      8: 8,
+    };
+    let i = 1;
+    let isRunning = true;
+
+    // iterate over every path for every multiplier
+    Object.keys(map[rowIndexMap[row]].records).forEach((multiplierIndex) => {
+      const paths = map[rowIndexMap[row]].records[multiplierIndex];
+      paths.forEach((path, index) => {
+        this.BallManager.addBall({ xPos: path.initialX, yPos: path.initialY });
+
+        // wait for ball to complete it's path
+        const waitForSettle = setInterval(() => {
+          if (this.BallManager.balls.length === 0 && !isRunning) {
+            clearInterval(waitForSettle);
+          }
+        }, 200);
+      });
+    });
+  }
+
   async simulate() {
     for (let i = 0; i < this.noOfBets; i++) {
       const x =
