@@ -3,10 +3,21 @@ import PriceInput from "../PriceInput/PriceInput";
 import RowsSelector from "../RowsSelector/RowsSelector";
 import NoOfBet from "../NoOfBet/NoOfBet";
 import RiskTab from "../RiskTab/RiskTab";
-export default function Auto() {
+import { useContext } from "react";
+import { gameContext } from "@/store/gameContext";
+export default function Auto({ children }) {
+  const { isRunning, setIsRunning } = useContext(gameContext);
+
   return (
     <div className={styles.auto_container}>
-      <div>
+      {children}
+      <div
+        style={{
+          opacity: isRunning ? 0.5 : 1,
+          pointerEvents: isRunning ? "none" : "auto",
+          transition: "opacity 0.25s ease",
+        }}
+      >
         <div style={{ margin: "var(--spacing-md) 0" }}>
           <div style={{ padding: "var(--spacing-md) 0", fontWeight: "bold" }}>
             Bet Amount

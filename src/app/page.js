@@ -14,19 +14,29 @@ export default function Home() {
   const [currentTab, setCurrentTab] = useState(0);
   const [rows, setRows] = useState(16);
   const [betFn, setBeFn] = useState(() => {});
+  const [isRunning, setIsRunning] = useState(false);
   const multiplierContainerRef = useRef(null);
+
   const tabCallback = (index) => {
     setCurrentTab(index);
   };
   return (
     <gameContext.Provider
-      value={{ rows, setRows, betFn, setBeFn, multiplierContainerRef }}
+      value={{
+        rows,
+        setRows,
+        betFn,
+        setBeFn,
+        multiplierContainerRef,
+        isRunning,
+        setIsRunning,
+      }}
     >
       <div className={styles.plinko}>
         <div className={styles.game_container}>
           <div className={styles.control_panel}>
             <ControlTab callback={tabCallback} />
-            {currentTab == 0 ? <Manual /> : <Auto />}
+            {currentTab == 0 ? <Manual></Manual> : <Auto></Auto>}
           </div>
           <div className={styles.canvas_container}>
             <MultiplierHistory

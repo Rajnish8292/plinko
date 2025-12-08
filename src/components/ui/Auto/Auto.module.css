@@ -2,6 +2,7 @@
     margin-top: var(--spacing-lg);
     display: flex;
     flex-direction: column;
+    position: relative;
 
 }
 

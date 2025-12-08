@@ -1,14 +1,17 @@
 "use client";
 
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { gameContext } from "@/store/gameContext";
 import { multipliers } from "@/constants/gameConfig";
-import Ball from "@/lib/Ball";
 import { obstaclesPosition } from "@/lib/Obstacles";
 import { sinksPosition } from "@/lib/Sink";
 import { draw } from "@/lib/Draw";
 import { BallManager } from "@/lib/BallManager";
 import { Simulator } from "@/lib/Simulator";
+import { colorArray } from "@/constants/gameConfig";
+import { getMirroredColors } from "@/lib/MirroredColor";
+import ObstacleCollisionEffect from "@/lib/ObstacleCollisionEffect";
+import obstalceCollisionEffectManager from "@/lib/ObstacleCollisionEffectManager";
 
 export default function Draw() {
   const canvasRef = useRef();
@@ -18,28 +21,69 @@ export default function Draw() {
   // shared state
   const { rows, setRows } = useContext(gameContext);
   const { betFn, setBeFn } = useContext(gameContext);
+  const { isRunning, setIsRunning } = useContext(gameContext);
   const { multiplierContainerRef } = useContext(gameContext);
 
   const obstaclesRef = useRef([]);
   const sinksRef = useRef([]);
+  const collisionEffectRef = useRef([]);
   const multipliersArayRef = useRef(multipliers[rows]);
 
-  const collisionCallback = ({ multiplier }) => {
-    if (multiplierContainerRef && multiplierContainerRef.current) {
-      console.log(multiplierContainerRef.current);
-      const div = document.createElement("div");
-      div.className = "multiplier-item";
-      div.innerText = `${multiplier}x`;
-      multiplierContainerRef.current.append(div);
-      while (multiplierContainerRef.current.children.length > 10) {
-        multiplierContainerRef.current.removeChild(
-          multiplierContainerRef.current.firstChild
-        );
+  const collisionCallback = ({ multiplier }) => {};
+
+  useEffect(() => {
+    const ballDropStartCallback = () => {
+      setIsRunning(true);
+    };
+    const ballDropEndCallback = () => {
+      setIsRunning(false);
+    };
+    const ballCollisionCallback = (data) => {
+      const { multiplier, index } = data;
+      if (!multiplier) return;
+
+      const sinkColor = getMirroredColors(colorArray, rows - 1);
+      if (multiplierContainerRef && multiplierContainerRef.current) {
+        console.log(multiplierContainerRef.current);
+        const div = document.createElement("div");
+        div.className = "multiplier-item";
+        div.innerText = `${multiplier}x`;
+        div.style.background = sinkColor[index];
+        multiplierContainerRef.current.append(div);
+        while (multiplierContainerRef.current.children.length > 10) {
+          multiplierContainerRef.current.removeChild(
+            multiplierContainerRef.current.firstChild
+          );
+        }
+      } else {
+        console.warn("multiplierContainerRef is not available.");
       }
-    } else {
-      console.warn("multiplierContainerRef is not available.");
-    }
-  };
+    };
+    const ballObstacleCollisionCallback = (data) => {
+      const { x, y } = data;
+      // collision effect
+      const effect = new ObstacleCollisionEffect(x, y, rows);
+      obstalceCollisionEffectManager.addCollisionEffect(effect);
+    };
+    BallManager.eventEmitter.subscribe("ballDropStart", ballDropStartCallback);
+    BallManager.eventEmitter.subscribe("ballDropEnd", ballDropEndCallback);
+    BallManager.eventEmitter.subscribe("ballCollision", ballCollisionCallback);
+    BallManager.eventEmitter.subscribe(
+      "ballObstacleCollision",
+      ballObstacleCollisionCallback
+    );
+    return () => {
+      BallManager.eventEmitter.unSubscribe(
+        "ballDropStart",
+        ballDropStartCallback
+      );
+      BallManager.eventEmitter.unSubscribe("ballDropEnd", ballDropEndCallback);
+      BallManager.eventEmitter.unSubscribe(
+        "ballCollision",
+        ballCollisionCallback
+      );
+    };
+  }, [rows]);
 
   useEffect(() => {
     BallManager.setCanvasWidth(canvasWidth);
@@ -69,13 +113,13 @@ export default function Draw() {
   }, [rows, canvasHeight, canvasWidth]);
 
   useEffect(() => {
-    const simulator = new Simulator(
-      BallManager,
-      canvasWidth,
-      canvasHeight,
-      rows
-    );
-    simulator.setUpTestDom();
+    // const simulator = new Simulator(
+    //   BallManager,
+    //   canvasWidth,
+    //   canvasHeight,
+    //   rows
+    // );
+    // simulator.setUpTestDom();
     // setTimeout(() => {
     //   simulator.simulate();
     // }, 1000);
@@ -106,6 +150,7 @@ export default function Draw() {
         obstaclesRef.current,
         sinksRef.current,
         BallManager,
+        obstalceCollisionEffectManager,
         multipliersArayRef.current,
         collisionCallback
       );

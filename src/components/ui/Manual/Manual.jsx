@@ -6,12 +6,20 @@ import RowsSelector from "../RowsSelector/RowsSelector";
 import { gameContext } from "@/store/gameContext";
 import { useContext } from "react";
 
-export default function Manual() {
+export default function Manual({ children }) {
   const { betFn, setBeFn } = useContext(gameContext);
+  const { isRunning, setIsRunning } = useContext(gameContext);
 
   return (
     <div className={styles.manual_container}>
-      <div>
+      {children}
+      <div
+        style={{
+          opacity: isRunning ? 0.5 : 1,
+          pointerEvents: isRunning ? "none" : "auto",
+          transition: "opacity 0.25s ease",
+        }}
+      >
         <div style={{ margin: "var(--spacing-lg) 0" }}>
           <div style={{ padding: "var(--spacing-md) 0", fontWeight: "bold" }}>
             Bet Amount

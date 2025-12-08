@@ -1,4 +1,6 @@
+import { multipliers } from "@/constants/gameConfig";
 import Ball from "./Ball";
+import EventEmitter from "./EventEmitter";
 class ballManager {
   constructor(canvasWidth, canvasHeight, rows) {
     this.balls = [];
@@ -10,6 +12,14 @@ class ballManager {
     this.unSuccessfulDrops = 0;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    this.isRunning = false;
+    this.eventEmitter = new EventEmitter();
+    this.eventEmitter.initEvents([
+      "ballDropStart",
+      "ballDropEnd",
+      "ballCollision",
+      "ballObstacleCollision",
+    ]);
   }
 
   addBall({ xPos, yPos }) {
@@ -19,6 +29,16 @@ class ballManager {
   }
 
   updateBalls(obstacles, sinks, collisionCallback) {
+    if (this.balls.length == 0) {
+      if (this.isRunning) this.eventEmitter.emit("ballDropEnd", {});
+      this.isRunning = false;
+    }
+    if (this.balls.length > 0) {
+      if (!this.isRunning) this.eventEmitter.emit("ballDropStart", {}); // emit this event when ball drop start, emit only one time
+      this.isRunning = true;
+    }
+    this.checkCollisionWithObstacles(obstacles);
+
     this.balls.forEach((ball) => {
       ball.update(obstacles, sinks);
     });
@@ -42,6 +62,23 @@ class ballManager {
   }
   updateRadius() {
     this.radius = 10 - ((this.rows - 8) / 8) * 5;
+  }
+
+  checkCollisionWithObstacles(obstacles) {
+    this.balls.forEach((ball) => {
+      obstacles.forEach((obstacle) => {
+        const dx = ball.x - obstacle.x;
+        const dy = ball.y - obstacle.y;
+        const dist = Math.hypot(dx, dy);
+        const buffer = 2;
+        if (dist <= ball.radius + obstacle.radius + buffer) {
+          this.eventEmitter.emit("ballObstacleCollision", {
+            x: obstacle.x,
+            y: obstacle.y,
+          });
+        }
+      });
+    });
   }
 
   // if ball collided with sink remove the ball from array
@@ -77,6 +114,11 @@ class ballManager {
             });
           }
 
+          this.eventEmitter.emit("ballCollision", {
+            multiplier: sink.multipler,
+            index: sink.index,
+          });
+
           if (callback) callback({ multiplier: sink.multipler });
 
           this.balls.splice(i, 1);
@@ -84,6 +126,7 @@ class ballManager {
 
         if (collided) break;
       }
+
       // check if ball goes out of canvas from bottom
       if (ball.y - ball.radius > this.canvasHeight) {
         this.unSuccessfulDrops += 1;

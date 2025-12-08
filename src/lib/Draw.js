@@ -3,6 +3,7 @@ import { drawSink } from "./Sink";
 import { getMirroredColors } from "./MirroredColor";
 import { writeText } from "./Text";
 import { colorArray } from "@/constants/gameConfig";
+import ObstacleCollisionEffect from "./ObstacleCollisionEffect";
 // import { BallManager } from "./BallManager";
 export const draw = (
   ctx,
@@ -11,10 +12,15 @@ export const draw = (
   obstacles,
   sinks,
   BallManager,
+  obstalceCollisionEffectManager,
   multiplier,
   collisionCallback
 ) => {
   ctx.clearRect(0, 0, width, height);
+
+  // obstacle collision effect
+  obstalceCollisionEffectManager.updateEffects();
+  obstalceCollisionEffectManager.drawEffects(ctx);
 
   // draw all the obstacles
   obstacles.forEach((obstacle) => {
